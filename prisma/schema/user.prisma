@@ -1,0 +1,11 @@
+model User {
+    id           String       @id @default(uuid())
+    name         String       @db.VarChar(255)
+    email        String       @unique
+    password     String
+    activeStatus ActiveStatus @default(ACTIVE)
+    role         Role         @default(USER)
+    profileId    Profile?
+
+    @@map("users")
+}
