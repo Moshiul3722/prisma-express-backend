@@ -1,15 +1,16 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import httpStatus from "http-status-codes";
 import { userService } from "./user.service";
+import { catchAsync } from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
 
-const registerUser = async (req: Request, res: Response) => {
-  try {
+const registerUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
-    // console.log(payload);
     const user = await userService.registerUserIntoDB(payload);
 
-    res.status(httpStatus.CREATED).json({
+    sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "User registered successfully",
@@ -17,16 +18,8 @@ const registerUser = async (req: Request, res: Response) => {
         user,
       },
     });
-  } catch (error) {
-    console.log(error);
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      statusCode: httpStatus.INTERNAL_SERVER_ERROR,
-      message: "Faild to register user",
-      error: (error as Error).message,
-    });
-  }
-};
+  },
+);
 
 export const userController = {
   registerUser,
