@@ -3,7 +3,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import config from "./config";
 import { userRoutes } from "./modules/user/user.route";
-import { authRoutes } from "./modules/auth/auth.rout";
+import { authRoutes } from "./modules/auth/auth.route";
 
 const app: Application = express();
 
