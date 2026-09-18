@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { catchAsync } from "../../utils/catchAsync";
-import { postService } from "./post.service";
-import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status-codes";
+import { catchAsync } from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
+import { postService } from "./post.service";
 
 const createPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +21,10 @@ const createPost = catchAsync(
 );
 const getAllPosts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await postService.getAllPosts();
+    const query = req.query;
+    // console.log("Just query", query);
+
+    const result = await postService.getAllPosts(query);
 
     sendResponse(res, {
       success: true,
